@@ -13,7 +13,8 @@ import {
   CardContent,
 } from "~/components/ui/card";
 
-import { createConfig } from "wagmi";
+import { createConfig, http } from "wagmi";
+import { frameConnector } from "~/lib/connector";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base, optimism } from "wagmi/chains";
 import { createStore } from "mipd";
@@ -48,12 +49,8 @@ export default function Frame() {
     try {
       await sdk.actions.addFrame();
     } catch (error) {
-      if (error instanceof AddFrame.RejectedByUser) {
-        setAddFrameResult(`Not added: ${error.message}`);
-      }
-
-      if (error instanceof AddFrame.InvalidDomainManifest) {
-        setAddFrameResult(`Not added: ${error.message}`);
+      if (error instanceof Error) {
+        setAddFrameResult(`Error: ${error.message}`);
       }
 
       setAddFrameResult(`Error: ${error}`);
