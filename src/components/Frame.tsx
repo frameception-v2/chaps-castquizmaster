@@ -17,6 +17,15 @@ import { createConfig, http } from "wagmi";
 import { frameConnector } from "~/lib/connector";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base, optimism } from "wagmi/chains";
+
+const config = createConfig({
+  chains: [base, optimism],
+  connectors: [frameConnector()],
+  transports: {
+    [base.id]: http(),
+    [optimism.id]: http()
+  },
+});
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { PROJECT_TITLE } from "~/lib/constants";
